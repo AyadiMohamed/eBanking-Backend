@@ -1,2 +1,7 @@
-package com.ayadi.ebankingbackend.exceptions;public class BankAccountNotFoundException {
+package com.ayadi.ebankingbackend.exceptions;
+
+public class BankAccountNotFoundException extends Exception {
+    public BankAccountNotFoundException(String message) {
+        super(message);
+    }
 }

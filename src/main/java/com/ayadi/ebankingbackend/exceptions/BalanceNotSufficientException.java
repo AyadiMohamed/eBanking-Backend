@@ -1,2 +1,7 @@
-package com.ayadi.ebankingbackend.exceptions;public class BalanceNotSufficientException {
+package com.ayadi.ebankingbackend.exceptions;
+
+public class BalanceNotSufficientException extends Exception {
+    public BalanceNotSufficientException(String message) {
+        super(message);
+    }
 }

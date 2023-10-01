@@ -4,10 +4,7 @@ import com.ayadi.ebankingbackend.dtos.BankAccountDTO;
 import com.ayadi.ebankingbackend.dtos.CurrentAccountDTO;
 import com.ayadi.ebankingbackend.dtos.CustomerDTO;
 import com.ayadi.ebankingbackend.dtos.SavingAccountDTO;
-import com.ayadi.ebankingbackend.entities.AccountOperation;
-import com.ayadi.ebankingbackend.entities.CurrentAccount;
-import com.ayadi.ebankingbackend.entities.Customer;
-import com.ayadi.ebankingbackend.entities.SavingAccount;
+import com.ayadi.ebankingbackend.entities.*;
 import com.ayadi.ebankingbackend.enums.AccountStatus;
 import com.ayadi.ebankingbackend.enums.OperationType;
 import com.ayadi.ebankingbackend.exceptions.BalanceNotSufficientException;
@@ -18,11 +15,13 @@ import com.ayadi.ebankingbackend.repositories.AccountOperationRepository;
 import com.ayadi.ebankingbackend.repositories.CustomerRepository;
 import com.ayadi.ebankingbackend.services.BankAccountService;
 import com.ayadi.ebankingbackend.services.CustomerService;
+import com.ayadi.ebankingbackend.services.UserInfoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.Date;
 import java.util.List;
@@ -38,8 +37,24 @@ public class EbankingBackendApplication {
     }
 
     @Bean
-    CommandLineRunner start(BankAccountService bankAccountService , CustomerService customerService){
+    CommandLineRunner start(BankAccountService bankAccountService , CustomerService customerService , UserInfoService userInfoService){
         return args -> {
+
+            UserInfo userInfo = new UserInfo();
+            userInfo.setName("User");
+            userInfo.setEmail("User@Gmail.com");
+            userInfo.setPassword("12345");
+            userInfo.setRoles("ROLE_USER");
+            userInfoService.addUser(userInfo);
+
+            UserInfo userInfo1 = new UserInfo();
+            userInfo1.setName("Admin");
+            userInfo1.setEmail("Admin@Gmail.com");
+            userInfo1.setPassword("1234567");
+            userInfo1.setRoles("ROLE_ADMIN");
+            userInfoService.addUser(userInfo1);
+
+
             Stream.of("Client1","Client2","Client3").forEach(name->{
                 CustomerDTO customer = new CustomerDTO();
                 customer.setName(name);
